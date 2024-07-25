@@ -1,15 +1,3 @@
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: gp2tag
-  annotations:
-    storageclass.beta.kubernetes.io/aws-tags: "Owner=ro.distefano@reply.it,Environment=Development,Project=cnoe"
-provisioner: kubernetes.io/aws-ebs
-parameters:
-  type: gp2
-
----
-
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -18,7 +6,7 @@ metadata:
   labels:
     app: postgresql
 spec:
-  storageClassName: gp2tag
+  storageClassName: gp2
   capacity:
   accessModes:
     - ReadWriteOnce

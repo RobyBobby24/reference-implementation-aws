@@ -1,16 +1,12 @@
-apiVersion: storage.k8s.io/v1
 kind: StorageClass
+apiVersion: storage.k8s.io/v1
 metadata:
   name: mygp2
-  namespace: keycloak
-  annotations:
-    storageclass.beta.kubernetes.io/aws-tags: "Owner=ro.distefano@reply.it,Environment=Development,Project=tirociniocnoe"
-provisioner: kubernetes.io/aws-ebs
+provisioner: ebs.csi.aws.com
 parameters:
-  type: gp2
-  csi.storage.k8s.io/fstype: ext4
-  tags: |
-    Owner: "ro.distefano@reply.it"
+  tagSpecification_1: "Owner=ro.distefano@reply.it"
+  tagSpecification_2: "Environment=dev"
+  tagSpecification_3: "Project=cnoe-tirocinio"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1

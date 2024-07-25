@@ -8,6 +8,9 @@ metadata:
 provisioner: kubernetes.io/aws-ebs
 parameters:
   type: gp2
+  csi.storage.k8s.io/fstype: ext4
+  tags: |
+    Owner: "ro.distefano@reply.it"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1

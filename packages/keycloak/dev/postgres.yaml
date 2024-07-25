@@ -2,6 +2,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: postgresql
+  annotations:
+    storageclass.beta.kubernetes.io/aws-tags: "Owner=ro.distefano@reply.it,Environment=Development,Project=tirociniocnoe"
   namespace: keycloak
   labels:
     app: postgresql

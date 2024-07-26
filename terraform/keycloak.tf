@@ -1,4 +1,3 @@
-
 #---------------------------------------------------------------
 # External Secrets for Keycloak if enabled
 #---------------------------------------------------------------
@@ -20,7 +19,7 @@ resource "aws_iam_policy" "external-secrets" {
           "secretsmanager:ListSecretVersionIds"
         ],
         "Resource": [
-          "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:cnoe/keycloak/*"
+          "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:cnoe-tirocinio-rob/keycloak/*"
         ]
       }
     ]
@@ -34,7 +33,7 @@ module "external_secrets_role_keycloak" {
   count = local.secret_count
 
   role_name_prefix = "cnoe-external-secrets-"
-  
+
   oidc_providers = {
     main = {
       provider_arn               = data.aws_iam_openid_connect_provider.eks_oidc.arn
@@ -70,7 +69,7 @@ resource "kubernetes_manifest" "serviceaccount_external_secret_keycloak" {
     kubernetes_manifest.namespace_keycloak,
     kubectl_manifest.application_argocd_external_secrets
   ]
-  
+
   manifest = {
     "apiVersion" = "v1"
     "kind" = "ServiceAccount"
@@ -88,7 +87,7 @@ resource "aws_secretsmanager_secret" "keycloak_config" {
   count = local.secret_count
 
   description = "for use with cnoe keycloak installation"
-  name = "cnoe/keycloak/config"
+  name = "cnoe-tirocinio-rob/keycloak/config"
   recovery_window_in_days = 0
 }
 
@@ -216,14 +215,14 @@ resource "kubectl_manifest" "application_argocd_keycloak" {
     command = "./install.sh '${random_password.keycloak_user_password.result}' '${random_password.keycloak_admin_password.result}'"
 
     working_dir = "${path.module}/scripts/keycloak"
-    interpreter = ["/bin/bash", "-c"]
+    interpreter = ["C:\\Windows\\System32\\wsl.exe","bash", "-c"]
   }
   provisioner "local-exec" {
     when = destroy
     command = "./uninstall.sh"
 
     working_dir = "${path.module}/scripts/keycloak"
-    interpreter = ["/bin/bash", "-c"]
+    interpreter = ["C:\\Windows\\System32\\wsl.exe","bash", "-c"]
   }
 }
 
